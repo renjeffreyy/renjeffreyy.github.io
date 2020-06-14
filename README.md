@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+- [Git](#Git)
 - [React](#React.js)
 - [Redux](#Redux)
 - [Node](#Node.js)
@@ -9,46 +10,68 @@
 - [SCSS or SASS](#SCSS-or-SASS)
 - [Deploying Your Website](#Deploying-your-website)
 
-
 ---
+
+# Git
+
+[helpful link to git commands](https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches)
+
+**Delete a branch locally**
+
+in Terminal type `git branch -d <branch name>`
+
+if you want to force the branch to delete use a capital D `git branch -D <branch name>`
+
+**Create new branch when working on master**
+
+- make sure all the changes from master have been pulled into your project use `git pull`
+- create the branch on your local machine and switch in this branch
+  - `git checkout -b <name of your branch>`
+- push your branch to github
+  - `git push origin <name of your branch>`
 
 # React.js
 
 # Redux
+
 [React Redux Documentation](https://react-redux.js.org/introduction/quick-start)
 
 **Getting started**
 
 install redux into your project directory
+
 > npm install react-redux
 
 add the provider `<Provider />` into your app. this makes the redux store available to your entire app
 
-Into the file containing your root element(usually index.js).  import provider from react-redux
- the file should look something like the below
- ``` javascript
- import React from 'react'
-import ReactDOM from 'react-dom'
+Into the file containing your root element(usually index.js). import provider from react-redux
+the file should look something like the below
 
-import { Provider } from 'react-redux'
-import store from './store'
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import App from './App'
+import { Provider } from 'react-redux';
+import store from './store';
 
-const rootElement = document.getElementById('root')
+import App from './App';
+
+const rootElement = document.getElementById('root');
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
   rootElement
-)
- ```
-**Note** the provider doesnt have to be in the root element. it just has to wrap around all the react componenets that you want to have access to the store. 
+);
+```
+
+**Note** the provider doesnt have to be in the root element. it just has to wrap around all the react componenets that you want to have access to the store.
 
 I prefer to put the provider in my app.js.
 
 the below also works
-``` javascript
+
+```javascript
 const App = () => {
   return (
     <Provider store={store}>
@@ -64,7 +87,7 @@ const App = () => {
 
 **create your store**
 
-- import create store and apply middleware. create store creates the store and applymiddleware lets you use middleware in your store. 
+- import create store and apply middleware. create store creates the store and applymiddleware lets you use middleware in your store.
 
 - if you want to use redux devtools in your browser you can install redux-devtools-extenstion as a dependency
 
@@ -75,8 +98,7 @@ const App = () => {
 
 The Below is an example of what your store should look like
 
-
-``` javascript
+```javascript
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevtools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -145,6 +167,24 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 ```
 
+**Sending things in express**
+express response object lets us send responses back to the client. some things we can send are
+
+- strings
+- json
+- files
+- headers
+- status codes
+- the body
+
+Response methods
+
+- res.send(body)
+  - we can use the `res.send` method to send an HTTP response
+  - the body can be a buffer object, string, plain object, or an array
+- res.sendStatus(statusCode)
+  - we can send http response status codes. we just have to pass in a number
+
 # CSS
 
 # SCSS or SASS
@@ -154,76 +194,75 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 if you are using vs code a lot of people recomend that we add the scss compliter extension. this is becaus ebrowsers can not read scss. they can only read regular css
 
 What can we do in SASS
+
 - we can create variables
   - we use the $ to create a variable. put the $ in front of your variable name
-  - ex: ```$primaryButtonColor :red;```
+  - ex: `$primaryButtonColor :red;`
   - this works like any other variable in javascript/programming language
 - maps
 - nesting
   - instead of creating new blocks for css elements within other css elements we can next them into the parent
 
-example: 
+example:
 
-```scss 
+```scss
 header {
-    background:red;
-    button{
-        background:blue;
-    }
+  background: red;
+  button {
+    background: blue;
+  }
 }
-  ```
-  to add hover, before, after, etc we add the & symbol before the keyword within the element we want to style
-  
+```
+
+to add hover, before, after, etc we add the & symbol before the keyword within the element we want to style
+
 example:
 
 ```scss
 button {
-    background:red;
-    &::after {
-        content: "hello";
-    }
+  background: red;
+  &::after {
+    content: 'hello';
+  }
 }
 ```
-
-
 
 - mixins
   - similiar to functions in a programming language we can put several styles into a mixin and use them like puzzle pieces and put those styles where we need them. this helps us not repeat code.
-example of mixin:
-``` scss
+    example of mixin:
+
+```scss
 @mixin flexCenter {
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 ```
+
 then in the element we are styling we call `@inclide flexCenter();`
-if we want to use the mixin but change something we can define a variable within the parenthesis of the mixin and use it within the mixin 
+if we want to use the mixin but change something we can define a variable within the parenthesis of the mixin and use it within the mixin
 
-example 
+example
 
-``` scss
+```scss
 @mixin flexCenter($direction) {
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:$direction;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: $direction;
 }
 
-@include flexCenter(center)
+@include flexCenter(center);
 ```
-
 
 - extensions
   - we can have elements inherit the styles of another by using extensions
   - `.contact{ @extends header;}` and if we want to change the styles of the extensions we can just write them following the extensions
 - operations
-  - we can do operations in scss + - / *
+  - we can do operations in scss + - / \*
 - imports
   - we can import our our scss from different files. this can help us organize our code
-
-
 
 # Common Libraries
 
@@ -238,13 +277,14 @@ example
 - **concurrently** : allows you to ren dev server and front end dev server at the same time
 
 # Databases
+
 ## ** MongoDB**
 
-## **Mongoose**  
+## **Mongoose**
 
 [Link to medium article that talks more about mongoose and react](https://medium.com/@KLMcGrath2/mongoose-schemas-in-react-f5c0afa5a47d)
 
-Mongoose helps you interact with Mongodb databases. Models are the rock band — it is how your API creates, queries, updates, and deletes from your database. Anything goes in the Model, there is no structure to the data. 
+Mongoose helps you interact with Mongodb databases. Models are the rock band — it is how your API creates, queries, updates, and deletes from your database. Anything goes in the Model, there is no structure to the data.
 
 A mongoose Schema is the drummer in the band — it defines the structure of the document, the default values, its validators and other things. The Schema makes using the data more usable.
 
@@ -253,4 +293,3 @@ The Schema is applied to the Model, and mongoose applies this to the MongoDB dat
 ### **Schemas**
 
 # Deploying your website
-
