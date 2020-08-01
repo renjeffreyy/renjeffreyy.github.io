@@ -57,3 +57,45 @@ rule of thumb
 
 - the logrithm of a number roughly measures the ammount of times you can divide a number by 2 before you get a value that is less thnan or equal to one
 - for example 8 can be divided by 2 3 times, where a number like 25 is 4...something
+
+## Analyzing erformance of arrays and objects
+
+### Big O of Objects
+
+When to use objets
+
+- when you don't need order
+- when you need fast access, insertion and removal
+- Big O of Objects
+  - insertion - O(1)
+  - removal O(1)
+  - searching O(n)
+  - Access O(1)
+- Big O of Object methods
+  - Object Keys are O(n)
+  - Object Values are O(n)
+  - Object Entries are O(n)
+  - hasOwnProperty is constant O(1)
+
+### Big O of arrays
+
+When to use arrays
+
+- when you need order
+- when you need fast access/ insertin/removal (sort of)
+- best to avoid adding or removing from beggining of array
+
+  - Doing this makes the computer have to re-index the entire array
+  - this does not mean you cant do it, if it is necessary do it but it is more efficient to add or delete at the end of an array
+
+### Big O of Array Methods
+
+- push O(1)
+- pop O(1)
+- shift O(n)
+- unshift O(n)
+- concat O(n)
+- slice O(n)
+- splice O(n)
+- sort O(n \* logn)
+- foreach, map, filter, reduce..etc O(n)
