@@ -39,3 +39,18 @@ classes in typescript compiles to old javscript which is useable by even older b
 private classes are only accessible from inside the class. They are not available outside the class.
 
 We can add static keyword in front of class properties to make them accessible by default without defininf them.
+
+## Interfaces and Generics
+
+**Interfaces**
+
+- Allows us to create a sort of inique type for an expression that allows us to securely communicate with other objects.
+- sort of like a schema that types out everything within an object
+- We can add a question mark (with no space) to the end of a property to signify that the property is optional and does not have to be implemented
+- we can use interfaces to create our own type without having to create a class for it.
+- when compiled into javascript we do not see the interfaces or types
+
+Generics
+
+- are types which can hold / use several types
+- we can use it to spcify what type of expressions an array or object will take
