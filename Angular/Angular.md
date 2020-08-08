@@ -61,6 +61,7 @@ export class ServerComponent {}
 - **template:** instead of having a seperate file four our html tempalte we can rwite in directly within the template preperty. this is more for if you dont have a lot of code to write.
 - **styleUrls** : this is where we put the file path to our styles. this takes in an array and you can add multiple files of css
 - **styles:** this also takes in an array also and you can write your styles in directly as strings
+- **Encapsulation**: Normally Css is applied globaly with Angular, it is not because of view encapsulation. Instead of giving your html elements their classes and styles Angular gives it a unique property with all that info so your styles stay withon your component. To change this you would set this to none. Emulated is default.
 
 ### How to use Cli to generate component
 
@@ -106,14 +107,16 @@ ways we can databind
     - in order to allow the parent component to read the type of the child we import the `@imput decorator` from angular core and execute it next to the property `@Input() property_name`. this exposes our property to outside parent elements
     - If we want to change the name of the property we can pass the name that we want as an argument into the input decorator and change the name in the selector to match the name that you pass into the decorator. Original name will not work after passing the alias into Input decorator
 - **event binding** (event)= 'expression'
+
   - we put the name of the event that we are going to listen for in the parenthesis and once that event occurs on the element it runs the defined function
   - passing \$event into theevent binding function gives us access to the event data emitted with the event
   - We can also bind to custom events
+
     - we create the events in the child component using `{EventEmitter}` from `@angular/core`. We input the Output decorator from angular core. This makes the event emitter available to the parent.
     - we create methods that will emit the event we created
     - in the selector of the element we event bind the name of the event and set it equal to a method in the parent component that does something with the event. you can have the method take data from the event and have it do sometihng with that event data. for example we take the event data and add it to a property in the parent component.
+    - We can assign an alias to our event by passing in the name that we want as a string to the Output decorator
     - Example of binding to own events
-    -
 
 ```html
 Events in the selector html. we click a button that will emit the events
@@ -206,6 +209,29 @@ export class AppComponent {
   - FormsModule is required for two way data binding
   - you need to make sure it is in the imports of the app module and that you import it from @angular/forms
 
+### local references in templates
+
+- we can place a local reference anywhere in our tempalte html file. We add local reference by adding a `#reference_name` to the html that we want to reference.
+- this local reference allows us to reference that html anywhere in our tempalte code. Not in our typescript code.
+- An example of how we can use this reference is by putting the reference on an input field and passing the value of that input field into one of our methods in the template by accessing the value property of the html element
+- `console.log(name_of_reference)`
+
+If you want to access tempalte and DOM Values you can use the @ViewChild
+
+- we would give the template html a local reference.
+- then we would import the `@viewChild` decorator
+- we pass the local reference into the view child decorator as a string.
+- `@ViewChild('Local_reference_name`) name of property in typescript: type_of_property;`
+- from there we can reference the property in typescript. If we want to access the value this was we can use the nativeElement.value property to get the value of the Dom/tempalte element.
+- `this.name_of_property.nativeElement.value`
+
+### Projecting Content into components with ng-content directive
+
+Just like how we put text in between html elements and have the inside value display we can put HTML/content in between selector tags and have that content be injected into our component template
+
+1. put the html elements in between the opening and closing of the selector tags
+2. inside of the template file of your component add the `<ng-content></ng-content>` directive where you want the content to be injected.
+
 ### Directives
 
 Directives are instructions in the dom
@@ -230,7 +256,10 @@ we can add attribute like keybords into our html to manipulate the dom
   - we are looping through log and each item is called log item
   - i is equal to the index of each logitem in log
 
-  **pipes**
+### Component Life cycle
+
+`ngOnInit(){}`
+**pipes**
 
 **Streams**
 
