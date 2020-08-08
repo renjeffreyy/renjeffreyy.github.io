@@ -101,9 +101,106 @@ ways we can databind
 - **property binding:** [property]='data'
   - allows you to bind html properties and set their value to whatever data yu want to set it to.
   - we can bind to directives and the properties of your own components
+  - We can bind properties to even our own components that we created.
+    - define the property in our child to recieve them and in the parent component is where the data lives.
+    - in order to allow the parent component to read the type of the child we import the `@imput decorator` from angular core and execute it next to the property `@Input() property_name`. this exposes our property to outside parent elements
+    - If we want to change the name of the property we can pass the name that we want as an argument into the input decorator and change the name in the selector to match the name that you pass into the decorator. Original name will not work after passing the alias into Input decorator
 - **event binding** (event)= 'expression'
   - we put the name of the event that we are going to listen for in the parenthesis and once that event occurs on the element it runs the defined function
   - passing \$event into theevent binding function gives us access to the event data emitted with the event
+  - We can also bind to custom events
+    - we create the events in the child component using `{EventEmitter}` from `@angular/core`. We input the Output decorator from angular core. This makes the event emitter available to the parent.
+    - we create methods that will emit the event we created
+    - in the selector of the element we event bind the name of the event and set it equal to a method in the parent component that does something with the event. you can have the method take data from the event and have it do sometihng with that event data. for example we take the event data and add it to a property in the parent component.
+    - Example of binding to own events
+    -
+
+```html
+Events in the selector html. we click a button that will emit the events
+<app-cockpit
+  (serverCreated)="onServerAdded($event)"
+  (blueprintCreated)="onBlueprintAdded($event)"
+></app-cockpit>
+```
+
+import EventEmitter and output from angular core
+
+create the event emitters
+
+create a method that will emit the event
+
+```typescript
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-cockpit',
+  templateUrl: './cockpit.component.html',
+  styleUrls: ['./cockpit.component.css'],
+})
+export class CockpitComponent implements OnInit {
+  @Output() serverCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+  @Output() blueprintCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+  }>();
+  newServerName = '';
+  newServerContent = '';
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onAddServer() {
+    this.serverCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent,
+    });
+  }
+
+  onAddBlueprint() {
+    this.blueprintCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent,
+    });
+  }
+}
+```
+
+this is what the parent component should look like
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  serverElements = [
+    { type: 'server', name: 'TestServer', content: 'just a test' },
+  ];
+
+  onServerAdded(serverData: { serverName: string; serverContent: string }) {
+    this.serverElements.push({
+      type: 'server',
+      name: serverData.serverName,
+      content: serverData.serverContent,
+    });
+  }
+
+  onBlueprintAdded(serverData: { serverName: string; serverContent: string }) {
+    this.serverElements.push({
+      type: 'blueprint',
+      name: serverData.serverName,
+      content: serverData.serverContent,
+    });
+  }
+}
+```
+
 - **two way data binding:** [(ngModel)]="data"
 
   - FormsModule is required for two way data binding
