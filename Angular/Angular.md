@@ -266,6 +266,12 @@ we can add attribute like keybords into our html to manipulate the dom
   - we are looping through log and each item is called log item
   - i is equal to the index of each logitem in log
 
+- ngSwitch
+  - similair to switch n avascript. used when you have a lot of conditions and cases
+  - `[ngSwitch]="value_in_ts_to_observe"` put this in the containing element like a div
+  - in the child elements add *ngSwitchCase directive `*ngSwitchCase="value"`
+  - add a default case to the end of the switch `*ngSwitchDefault`
+
 **How to make your own directive**
 
 1. create a class that will hold your directive logic
