@@ -236,6 +236,13 @@ Just like how we put text in between html elements and have the inside value dis
 
 Directives are instructions in the dom
 we can add attribute like keybords into our html to manipulate the dom
+
+**Structural Directives vs Attribute directives**
+
+**Attribute:** sit in template elements just like attributes. Only affect the element they sit on.
+
+**Structural Directives:** also sits in tempalte but changes the DOM. Affect a whole area of the DOM. We can not have more than 1 structural directive in an element
+
 **built in directives**
 
 - NGIF. performs conditional rendering. we add \*ngIf to the element we want to manipulate
@@ -246,9 +253,12 @@ we can add attribute like keybords into our html to manipulate the dom
   - allows us to change the style of the element. we put ngStyle in Brackets to bind to the ngStyle property and set it equal to a value/function in javascript
   - allows us to dynamically update the styles
   - unlike strucural directives that add or remove elements, attribute directives only change the elements they were placed on.
+  - example" `[ngStyle]="{attribute:condition}"`
+    - condition can be ternery
 - ngClass
   - allows us to dynamically add or remote css classes
   - only adds the class if a met condition is true
+  - example: `[ngClass]="{class_name: condition}"`
 - ngFor
 
   - structural directive so we need to include the star in the syntax
@@ -256,7 +266,40 @@ we can add attribute like keybords into our html to manipulate the dom
   - we are looping through log and each item is called log item
   - i is equal to the index of each logitem in log
 
+**How to make your own directive**
+
+1. create a class that will hold your directive logic
+2. import Directive and ElementRef, and others you may need from angular core
+3. Use the @Directive decorator to give it directive behavior and pass in an object with properties of your directive
+   1. main property you need is selector. this creates the selector for the directive. we can put the selector in square brackets to make it so all we have to do is add the property name to the element
+4. inject ElementRef
+5. implement onInit
+6. set ngOnInit to the logic you want the directive to perform.
+7. you need to add the directive to the appmodule.
+   1. import the directive from its location and add the import name to the declarations array
+
+you can use the cli to generate directives
+`ng generate directive directive_name`
+
+if you want to access the DOM the best way to do it is using renderer.
+
+[Read more about Angular Renderer](https://angular.io/api/core/Renderer2)
+
 ### Component Life cycle
+
+**types of lifecycle hooks**
+Whenever angular creates a component for us it goes through life cycle hooks and gives us a chance to hook into these phases and execute some code.
+
+- ngOnChanges: called at the start of the component life cycle and ran whenever properties with the @input decorator is changed
+- ngOnInit: called once the component has been initialized. We may not be able to see it yet but it is when it is first initialized. the properties can be accessed. will run after constructor.
+- ngDoCheck: called during every change detection run. will run on every check. angular does this in a very efficient way. This is mainly for if you want to run something on every change.
+- ngAfterContentInit: called after content from ng-content has been projected into view
+- ngAfterContentChecked: called everytime the project content has been checked
+- ngAfterViewInit: runs when our view has been rendered
+- ngAfterViewChecked: called everytime the view and child views has been checked
+- ngOnDestroy: called once the component is about to be destroyed
+
+Constructor and nginit run on each new instance of the class
 
 `ngOnInit(){}`
 **pipes**
