@@ -1,5 +1,11 @@
 # Angular
 
+Table of Contents
+
+- [Getting Started](##Getting-Started)
+- [How an angular app gets loaded and started](##How-an-angular-app-gets-loaded-and-started)
+- [Components](##Components)
+
 ## Getting Started
 
 - make sure you have node and npm installed
@@ -62,6 +68,7 @@ export class ServerComponent {}
 - **styleUrls** : this is where we put the file path to our styles. this takes in an array and you can add multiple files of css
 - **styles:** this also takes in an array also and you can write your styles in directly as strings
 - **Encapsulation**: Normally Css is applied globaly with Angular, it is not because of view encapsulation. Instead of giving your html elements their classes and styles Angular gives it a unique property with all that info so your styles stay withon your component. To change this you would set this to none. Emulated is default.
+- **Provider**: tells angular how to create services. **note**: i dont know if it is limited to services. further research needed
 
 ### How to use Cli to generate component
 
@@ -308,6 +315,150 @@ Whenever angular creates a component for us it goes through life cycle hooks and
 Constructor and nginit run on each new instance of the class
 
 `ngOnInit(){}`
+
+### Services and Dependency Injection
+
+**Services**
+Centralized containers to put similiar business logic and data. These allow other components that may need the same data or functions to have access to them through services instead of having to pass them down to parents/child
+
+- allows you to communicate between components
+- a service does not need a decorator. it is just a normal typescript class
+- We need to inject the service using the constuctor of the component we want to use the service in.
+- we import the service into the file and then in the constructor of the component we inject the service
+  - example: `constructor(private alias_of_service_in_component: Service_Name){}`
+  - we are prividing the type of the service that we want. the type is what follows the colon.
+  - we need to tell Angular how to provide the service. We do that by passing the Service into the providers array that we put into the @component decorator
+- we can then utilize all the properties of the service by using the this keyword followed by the alias that we gave ourservice.
+- putting the service int he provider creates new instances of the service. Instances of services Propogate down to the children but defining new instances within child components overiedes the instance in the parent component. So to use the same instance we need to only put the service in the provider of the top most level of our component that needs the service.
+- Highest level of service instance is at the appModule in the providers array.By putting the service in the app module we ensue that all of our components get the sane instance of the service unless we overide it.
+
+**Injecting a service into a service.**
+
+We can inject a service into aservice but in order to do so we need to use the @injectible decorator from angular core. Thi decorator provides Angular with the metadata that would normally come from an angular component.
+
+- example `this.service_alias.method_in_service()`
+
+In order to create a data service it is the same as making a normal service except whehn you inject everything into the component , define a property for your data and assign type then you want to implement ngOnInit and set the data to initalize when the component initializes.
+
+### Routing
+
+Routing Module constrols what content are displayed to the user when a specific route is entered into theURL
+
+- In the app module or in a seperate app.routing module Crete a constant variable containing your routes. `const routes: Routes = []`
+  - the variable is type routes that is imported from `@angular/routes`
+  - We also import Router Module from `@angular/routes`.
+- The route array takes in objects that contain information about your route
+- object has to follow a specific strucutre for it to work
+  - path:
+    - always needs a path. This is the part of the url that gets entdered after your domain
+    - Should be a string
+    - Do not add the slash in the beginning
+  - component
+    - informs angular that after a path is entered, show the specified component
+- You should set an empty path to render home component
+- Add Router Module or module containing yor routes info to imports into appModule.ts
+- use forRoot method of RouterModule and pass in your route variable containing all your array of routes `RouterModule.forRoot(routes)`
+- Browser Outlet has it's own directive that marks where you want to display your pages on your route `<router-outlet></router-outlet>`
+
+example
+
+```typescript
+import { Routes } from '@angular/router';
+const routes: Route = [
+  { path: 'name_of_path', component: 'name_of_component' },
+];
+```
+
+**Changing the url and displaying content on router outlet**
+
+If you use a normal anchor tag to cchange the URL your page will refresh every time. This makes it so you lose all state and data on refresh. So it is best to use routerLink directive to change routes and display content
+routerLink is a directive that allows us to change the route and thus change the content that is displayed in the router outlet.
+
+- to give your active routes style angular provides a routerLinkActive directive that adds a class to your element if the url for that router link is active.
+  - the way router link active works is that it will give the class as long as any of the routes are within the main url. What this means is that the default home url with slash will always be active. To change that we can add `[routerLinkActiveOptions]="{exact: true}"` to make it so the active class only gets applied to exact matches.
+
+naviating routes
+
+- adding a slash (`routerLink='/route'`) in front of your route will change the url to add your route to the root url. example rootUrl.com/route.
+- If you add a route name without a slash in the beggining it will try to add the route to the current page. so if you use `routerLink='route'` and you are currently on rootUrl.com/route. The new route will be rootUrl.com/route/route
+- we can use dot notation to navigate the routes like we do with directories `routerLink="../../route"`. This takes a look at the current route and sets it accoding to the dot notation. In the example it will go back 2 slashess and look for your route path.
+- We can programmically navigate to routes by creating a method that navigates to the desired route. We do this by importing Router from angular code, injecting router dependency, and using `this.router.navigate(['/route'])`. this will not refresh the page. it will behave just like router link
+- we can add data to routes dynamically by starting the portion we want to add with a colon. `routerLink='/route/:dynamic_variable'`
+  - be careful this will make it so that basically anything can take the place of the dynamic variable and the component will load.
+
+**Child Routes **
+
+- You can add child paths to routes with the same base. just pass children into the pbject as an array with all the child routes inside the array
+
+example:
+
+```typescript
+const routes: Routes = [
+  {
+    path: 'first-component',
+    component: FirstComponent, // this is the component with the <router-outlet> in the template
+    children: [
+      {
+        path: 'child-a', // child route path
+        component: ChildAComponent, // child route component that the router renders
+      },
+      {
+        path: 'child-b',
+        component: ChildBComponent, // another child route component that the router renders
+      },
+    ],
+  },
+];
+```
+
+- you can add aother router outlet selector inside the component with the child routes and children will be injected to the router outlet selector
+
+Handling Undeefined routes
+
+- One way to handle undefined route is to define a redirect path that takes in all unfamiliar paths and redirects them to a specific page.
+- To do this we set path equal to `**` and add redirectTo: to the object
+- we can also create a page not found component. whatever the wild car path is be sure to add it to the end so angular can go through all your previous routes first. Routes get parsed from top to bottom
+  example
+
+```typescript
+const routes: Routes = [
+  { path: 'first-component', component: FirstComponent },
+  { path: 'second-component', component: SecondComponent },
+  { path: '', redirectTo: '/first-component', pathMatch: 'full' }, // redirect to `first-component`
+  { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
+];
+```
+
+For more complex applications we can outsource the routing of our application to its own app routing file.
+
+Your app routing file will look like this
+
+```typescript
+//be sure to import these. import the component
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HeroesComponent } from './heroes/heroes.component';
+
+//these are the routes in your app
+const routes: Routes = [{ path: 'heroes', component: HeroesComponent }];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule {}
+```
+
+Be sure to import your app routiring module to your app module file. add it to the imports array.
+
+### Route guards
+
+One way to protect against unauthorized access to routes is by using an authguard service. This code runs when users are trying to access the protexted route.
+
+- to run the check when a user tries to access a route we add the canActivate property to the routes object and set it equal to the guard that we have created.
+- [Here is an article to help with auth guards in angular](https://medium.com/@ryanchenkie_40935/angular-authentication-using-route-guards-bf7a4ca13ae3)
+-
+
 **pipes**
 
 **Streams**
