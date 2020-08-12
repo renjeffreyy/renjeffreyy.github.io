@@ -459,7 +459,40 @@ One way to protect against unauthorized access to routes is by using an authguar
 - [Here is an article to help with auth guards in angular](https://medium.com/@ryanchenkie_40935/angular-authentication-using-route-guards-bf7a4ca13ae3)
 -
 
-**pipes**
+## Observables
+
+- An observable is an object that we import from a third party package rxjs
+- you can think of it as a datasource
+- consists of observable and observer
+  - There are three points where the observable handles data.
+    - handle data
+    - handle error
+    - handle completion
+    - You write the code on what to do for each of these if needed.
+- We subscribe to the ubservable with the subscribe method to be informed of changes within the observable.
+- With observables that are shipped with angular, angular will unsubscribe for you.
+- it is good to set your observable to a variable and subscribe to it there. and then unsubscribe from the observable when you are not using them anymore.
+- for others that are not part of angular you need to unsubscribe to them.
+  - You can do this by unsubscribing from the observable in the ngOnDestroy method. This prevents memory leaks and helps with performance.
+
+### Creating new Observables
+
+We can create new observables by importing observables from RXJS
+
+- We can set a variable and set it equal to `new Observable()`
+- the new observale method takes in a call back as an argument. rxjs sets the argumenet of of the callback to observer. We then use the callback to specify what we want the observer to do within the callback function.
+- we can also set the variable equal to `Observable.create((observer)=>{})`
+- If an observable encounters an error it stops
+- we can handle errors in observables same way we would handle errors in normal functions
+- **Completing**
+  - if the observable complete it also stops and you can add another function as the argument to the observable function that runs when the observable completes.
+  - errors cancel the observable and does not let it complete.
+
+#### Operators
+
+Operators allows us to perform actions on our observables to change the data that is output by them
+
+**pipe**: We use pipe method after our observable to let the computer know that we want to do something with the data. Then we pass in rxjs operators into pipe as arguments.
 
 **Streams**
 

@@ -26,3 +26,13 @@ How to go to the branch you just created (or any other branch)
 You can use one command to create your branch and go to it
 
 `$ git checkout -b your_branch_name`
+
+After creating the branch you can start coding to add your feature. When you want to push the changes of your branch to git hub you can do the below.
+
+```
+$git add .
+$git commit -m "commit message"
+$git push origin feature_branch
+```
+
+if it is your first commit on the branch, the branch will be created in the github repository. You can keep repeating this until you are ready to merge your code.
