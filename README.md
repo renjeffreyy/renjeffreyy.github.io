@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Git](#Git)
+- [Javascript Concepts](#Javascript-Concepts)
 - [React](#React.js)
 - [Angular]()
 - [Redux](#Redux)
@@ -30,6 +31,21 @@ if you want to force the branch to delete use a capital D `git branch -D <branch
   - `git checkout -b <name of your branch>`
 - push your branch to github
   - `git push origin <name of your branch>`
+
+
+# Javascript Concepts
+
+### Intersection Observer
+Helps determine the visibility of elements in the DOM. When you have an element inside of a parent element or viewport, the observer observes changes in the intersection of the element relative to the parent element. 
+
+Used for
+- infinite scroll
+- lazy loading images
+- animations
+
+#### Event Loops
+
+
 
 # React.js
 
