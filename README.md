@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Git](#Git)
+- [Javascript Concepts](#Javascript-Concepts)
 - [React](#React.js)
 - [Angular]()
 - [Redux](#Redux)
@@ -30,6 +31,21 @@ if you want to force the branch to delete use a capital D `git branch -D <branch
   - `git checkout -b <name of your branch>`
 - push your branch to github
   - `git push origin <name of your branch>`
+
+
+# Javascript Concepts
+
+### Intersection Observer
+Helps determine the visibility of elements in the DOM. When you have an element inside of a parent element or viewport, the observer observes changes in the intersection of the element relative to the parent element. 
+
+Used for
+- infinite scroll
+- lazy loading images
+- animations
+
+#### Event Loops
+
+
 
 # React.js
 
@@ -132,3 +148,64 @@ The Schema is applied to the Model, and mongoose applies this to the MongoDB dat
 ### **Schemas**
 
 # Deploying your website
+
+## Heroku
+Heroku is a good hosting service that has a free tier that allows you to host projects either for free or for a very low cost
+
+### Heroku Dynos
+Heroku hosts your code in what they call **Dynos**.  
+- Dynos are containers for your code within their machines. 
+- If you do not pay for their more premium plans then your dynos will be on shared machines. The performance of your project may be impacted by the other projects that are also hosted on that machine
+
+### Heroku Routing
+When a lot of requests come to your site Heroku Routing directs the traffic to your dynos. **Heroku has a random routing algorith.** Meaning that if you have multiple dynos and many request coming in at once Heroku will randomly assign one of your dynos to handle your request. Since it doesnt balance the workload, this could potentially lead to bottlenecks for bigger appliations. If you only have 1 dyno then this doesnt really matter.
+
+## Performance testing
+Software performance testing is a means of quality assurance. It involves testing software applications to ensure they will performa well under their expected workload
+
+**Performance testing checks**
+- speed - determines whether the application responds quickly
+- scalability - determines the maximum user load the software applicaton can handle
+- stability - Determines if the application is stable under varying loads
+
+**API Performance Metrics**
+- response time
+- throughput - requests per second, request payloads, maximum operating capacity
+- traffic composition - average and peak concurrent users
+- database - number of concurrent connections, cpu utilization, read and write iops (input output operations per second), memory consumption, disk storage requirements
+- errors - handling, failing rates
+
+### Load Testing
+Load tests allow you to see how your application performs under real-world traffic. Use load testing to test a new feature at scale before it launches, or to prepare your app for traffic growth.
+
+-  Add seed data
+    -  create seeds that reflect the variety of data in production
+    -  avoid using production data for load testing as it may be sensative or impact real users
+
+### Stress testing
+
+Stress testing involves testing an application under **extreme** workloads to see how it handles high traffic or data processingl The objective is to identify the breaking point of an application.
+
+### Volume testing
+With volume testing a large amount of data is populated into a database to observe how the application handles large amounts of data. 
+
+### Scalability testing
+helps determine the projects effictiveness in growing to  support an increase in crease in userload. This helps with planning capacity additions to your software system.
+
+
+## Scalability 
+
+ Scalability of an application can be measured by the number of requests the application support simultaneously.
+
+ ### Horizontal vs vertical scaling
+ 
+ ---
+ # Security
+ 
+ ## DOS
+ **Denial of service attack** is when someone denies a user from interacting with a network ressource by sending a lot of requests to the server in an attempt to over load the server. comes from a single source (IP address)
+ 
+## DDOS
+**Distributed Denial of service attack** is when the denial of service attack comes from multpile sources  making it so you cant stop the attack from just blocking a single source. 
+
+## Validating User Inputs
