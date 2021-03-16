@@ -43,11 +43,77 @@ Used for
 - lazy loading images
 - animations
 
+
+### Import Export
+
+Import
+- when importing a module that has an export default, the name that you import it as can be your choosing because it will reference the default export of the module
+- when using {name} to import, Only the specified part of the module will be imported. Names must match
+- You can use * to import everything from the module
+- You can change the name of an import by specifying the changed name of your import
+  ```javascript
+  import {name as Nammmmee} from './someFile.js'
+  ```
+
+Exports
+- Use export default to set a default export for your module
+- 
 #### Event Loops
 
 
 
 # React.js
+
+### JSX
+JSX is similiar to HTML but it is javascript that gets compiled into HTML with React.createElement(). A react function that takes in the JSX and creates those html elements
+- to add styling classes to your JSX use className instead of class. class is a reserved word in JS so we need to use className to create classes.
+
+### Javascript within JSX
+you are able to write javascript code within your jsx by wrapping your javascript code with single curly brackets within your jsx. 
+
+For Example
+```javascript
+const name = "Jeffrey"
+
+const Component = ()=>{
+  return (
+    <div>
+    <h1>hello my name is {name}</h1>
+    </div>
+  )
+}
+```
+
+### App / root component
+The Root component is the component that contains the other react components within your applicaion. If you used **create-react-app** to create your application. App.js will be your root component. 
+
+The index.js file is the file that takes your app.Js component and injects it into your index.html.
+
+
+### file/ folder naming in react
+Start the folder names of your react componenet swith a captital letter.
+
+### Creating functional components
+
+- Import React from the react package
+- Using Es6 conventions, create a const variable that holds your arrow function. The component is a function that returns JSX. 
+- export the function as a default
+- import the functionl component into the file that you want to use it in using a relative path.
+
+The below is an example of a basic functional component
+
+```Javascript
+
+Import React from 'react'
+
+const Person = ()=>{
+
+}
+
+export default Person
+
+```
+
 
 # Node.js
 
@@ -65,7 +131,7 @@ I have nodemon globally installed. the below is how you do it
 
 If you want it to just to be a development dependency you can run the below in your terminal
 
-> nom install --save-dev nodemon
+> npm install --save-dev nodemon
 
 ---
 
